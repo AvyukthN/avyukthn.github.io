@@ -180,30 +180,24 @@
 <section class="page" id="about" aria-labelledby="about-title">
   <h1 class="title" id="about-title">Avyukth <b>Nilajagi</b></h1>
   <p class="standfirst">
-    I work on making the training of language models more predictable: which interventions actually
-    prevent a model from internalizing a behavior, and how to tell in advance without paying for a
-    fine-tuning run each time. Undergraduate in computer science and applied mathematics at the
-    University of Pittsburgh; researcher at <a href="https://www.eleuther.ai/">EleutherAI</a>.
+    Empirical alignment research.
   </p>
 
   <div class="about-grid">
     <div>
       <p>
-        Most of my current work is on <strong>inoculation prompting</strong> — the finding that asking
-        a model to misbehave during fine-tuning makes it misbehave less at test time. It works well,
-        but choosing a good prompt has meant fine-tuning once per candidate. With my cohort at
-        EleutherAI I built a heuristic that reads the answer off base-model log-probabilities instead,
-        so a pool of fifty candidate prompts costs one fine-tune rather than fifty.
+        I'm an empirical alignment researcher. Most recently I mentored a SOAR cohort at EleutherAI working on inoculation prompting, 
+        where we developed Latent Preference Shift — a heuristic that predicts a prompt's inoculation effectiveness from base-model 
+        log-probabilities, replacing a fine-tuning run per candidate with a single forward pass. Before that I was a research fellow 
+        in the SPAR Spring 2026 cohort, advised by Daniel Tan, Maxime Riché, and Victor Gillioz, working on understanding and making 
+        improvements to inoculation prompting.
       </p>
       <p>
-        Before that I spent time on interpretability and model editing: extracting a direction for
-        overthinking in reasoning models and steering along it, and scaling sequential knowledge edits
-        in transformer MLPs. I also still run a computational neuroscience project at CMU on the
-        cortical microcircuit underlying the spectrolaminar pattern of LFP power.
-      </p>
-      <p>
-        The thread through all of it is measurement: taking something people currently judge by
-        intuition or by expensive trial and error, and finding the cheap quantity that predicts it.
+        Prior to engaging in AI Safety I was working in computational neuroscience at CMU @ Mendoza-Halliday Lab, working on
+        using neuronal synchrony to uncover the neuron-level mechanisms behind the ubiquitious spectrolaminar profile of LFP
+        power across cortical layers. Our work advanced understanding of the recurrent motifs of spike-LFP synchrony and
+        the structure of the canonical cortical microcircuit. Our work was published at SFN 2025 where we were invited to give
+        a nanosymposium talk.
       </p>
 
       <h2 class="section">News</h2>
