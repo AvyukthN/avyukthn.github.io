@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Avyukth Nilajagi</title>
+<meta name="description" content="Avyukth Rajendra Nilajagi — AI safety and interpretability research. University of Pittsburgh, EleutherAI." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300;400;500;700&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --accent:#b509ac;            /* al-folio theme purple */
+    --accent-dark:#8c057f;
+    --accent-tint:#faeffa;
+    --ink:#000000;
+    --grey:#828282;
+    --grey-light:#e8e8e8;
+    --bg:#ffffff;
+    --serif:"Roboto Slab","Times New Roman",serif;
+    --sans:"Roboto",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+    --wrap:920px;
+  }
+
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--sans);font-size:17px;line-height:1.65;font-weight:400;
+  }
+  .wrap{max-width:var(--wrap);margin:0 auto;padding:0 24px}
+
+  a{color:var(--ink);text-decoration:none}
+  a.link{border-bottom:1px solid var(--grey-light);transition:border-color .15s,color .15s}
+  a.link:hover{color:var(--accent);border-bottom-color:var(--accent)}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:2px}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:20;background:rgba(255,255,255,.92);
+    backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--grey-light);
+  }
+  .bar{display:flex;align-items:baseline;justify-content:space-between;gap:24px;padding:18px 24px;max-width:var(--wrap);margin:0 auto}
+  .brand{font-family:var(--serif);font-weight:700;font-size:19px;letter-spacing:-.01em}
+  .brand span{color:var(--accent)}
+  nav ul{display:flex;gap:22px;margin:0;padding:0;list-style:none;flex-wrap:wrap}
+  nav a{
+    font-size:15px;color:var(--grey);padding-bottom:3px;
+    border-bottom:2px solid transparent;transition:color .15s,border-color .15s;
+  }
+  nav a:hover{color:var(--ink)}
+  nav a[aria-current="page"]{color:var(--ink);border-bottom-color:var(--accent)}
+
+  /* ---------- pages ---------- */
+  .page{display:none;padding:56px 0 96px}
+  .page.is-active{display:block}
+
+  h1.title{
+    font-family:var(--serif);font-weight:300;font-size:46px;line-height:1.1;
+    letter-spacing:-.02em;margin:0 0 10px;
+  }
+  h1.title b{font-weight:700}
+  .standfirst{font-size:19px;color:var(--grey);margin:0 0 34px;max-width:44em}
+  .standfirst a{color:var(--grey);border-bottom:1px solid var(--grey-light)}
+  .standfirst a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+  h2.section{
+    font-family:var(--serif);font-weight:400;font-size:27px;margin:56px 0 18px;
+    padding-bottom:8px;border-bottom:1px solid var(--grey-light);
+  }
+  h2.section:first-of-type{margin-top:44px}
+  p{max-width:66ch}
+
+  /* ---------- about layout ---------- */
+  .about-grid{display:grid;grid-template-columns:1fr 250px;gap:44px;align-items:start}
+  .card{border:1px solid var(--grey-light);padding:20px}
+  .monogram{
+    font-family:var(--serif);font-weight:300;font-size:64px;line-height:1;
+    color:var(--accent);background:var(--accent-tint);
+    display:flex;align-items:center;justify-content:center;height:150px;margin:-20px -20px 18px;
+    letter-spacing:.02em;
+  }
+  .card dl{margin:0;font-size:14.5px}
+  .card dt{color:var(--grey);margin-top:12px}
+  .card dt:first-child{margin-top:0}
+  .card dd{margin:1px 0 0}
+  .card dd a{border-bottom:1px solid var(--grey-light)}
+  .card dd a:hover{color:var(--accent);border-bottom-color:var(--accent)}
+
+  /* ---------- news ---------- */
+  .news{border-collapse:collapse;width:100%;font-size:16px}
+  .news td{border-bottom:1px solid var(--grey-light);padding:13px 0;vertical-align:top}
+  .news td.when{color:var(--accent);font-family:var(--serif);font-size:14px;white-space:nowrap;padding-right:22px;width:1%;padding-top:15px}
+  .news tr:last-child td{border-bottom:0}
+
+  /* ---------- bibliography ---------- */
+  .bib{margin:0;padding:0;list-style:none}
+  .bib > li{padding:22px 0;border-bottom:1px solid var(--grey-light);display:grid;grid-template-columns:56px 1fr;gap:22px}
+  .bib > li:last-child{border-bottom:0}
+  .year{font-family:var(--serif);font-size:15px;color:var(--grey);padding-top:3px}
+  .bib h3{font-family:var(--serif);font-weight:500;font-size:19px;line-height:1.35;margin:0 0 4px}
+  .authors{font-size:15.5px;color:#333;margin:0}
+  .authors b{font-weight:700;color:var(--ink)}
+  .venue{font-size:15px;color:var(--grey);font-style:italic;margin:2px 0 0}
+  .note{font-size:15px;margin:6px 0 0;max-width:62ch;color:#333}
+  .btns{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;font-size:13px;line-height:1;padding:7px 11px;
+    border:1px solid var(--accent);color:var(--accent);background:none;
+    transition:background-color .15s,color .15s;cursor:pointer;font-family:var(--sans);
+  }
+  .btn:hover{background:var(--accent);color:#fff}
+  .status{
+    display:inline-block;font-size:13px;line-height:1;padding:7px 11px;
+    background:var(--accent-tint);color:var(--accent-dark);border:1px solid var(--accent-tint);
+  }
+
+  /* ---------- research entries ---------- */
+  .entry{padding:26px 0;border-bottom:1px solid var(--grey-light)}
+  .entry:last-child{border-bottom:0}
+  .entry h3{font-family:var(--serif);font-weight:500;font-size:21px;margin:0 0 3px;line-height:1.3}
+  .meta{font-size:15px;color:var(--grey);margin:0 0 10px}
+  .meta em{font-style:normal;color:var(--accent)}
+  .entry p{margin:0 0 8px}
+  .entry ul{margin:8px 0 0;padding-left:20px;max-width:66ch}
+  .entry li{margin-bottom:5px}
+
+  /* ---------- cv ---------- */
+  .cv-row{display:grid;grid-template-columns:170px 1fr;gap:26px;padding:20px 0;border-bottom:1px solid var(--grey-light)}
+  .cv-row:last-child{border-bottom:0}
+  .cv-when{font-family:var(--serif);font-size:15px;color:var(--grey)}
+  .cv-row h3{font-family:var(--serif);font-weight:500;font-size:19px;margin:0}
+  .cv-role{font-size:15.5px;color:var(--accent);margin:1px 0 8px}
+  .cv-row ul{margin:0;padding-left:20px;max-width:64ch}
+  .cv-row li{margin-bottom:6px}
+  .skills{display:grid;grid-template-columns:170px 1fr;gap:26px;padding:14px 0;border-bottom:1px solid var(--grey-light);font-size:16px}
+  .skills:last-of-type{border-bottom:0}
+  .skills span:first-child{font-family:var(--serif);font-size:15px;color:var(--grey)}
+
+  /* ---------- footer ---------- */
+  footer{border-top:1px solid var(--grey-light);padding:26px 0 40px;color:var(--grey);font-size:14px}
+  .social{display:flex;gap:18px;margin:0 0 12px;padding:0;list-style:none}
+  .social a{color:var(--grey);transition:color .15s}
+  .social a:hover{color:var(--accent)}
+  .social svg{width:19px;height:19px;display:block;fill:currentColor}
+
+  @media (max-width:760px){
+    body{font-size:16px}
+    h1.title{font-size:34px}
+    h2.section{font-size:23px}
+    .about-grid{grid-template-columns:1fr;gap:30px}
+    .card{max-width:320px}
+    .bib > li,.cv-row,.skills{grid-template-columns:1fr;gap:6px}
+    .year,.cv-when{padding-top:0}
+    .bar{gap:12px;flex-direction:column;align-items:flex-start}
+    nav ul{gap:16px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="bar">
+    <a class="brand" href="#about">Avyukth Nilajagi<span>.</span></a>
+    <nav aria-label="Sections">
+      <ul>
+        <li><a href="#about" data-nav="about">about</a></li>
+        <li><a href="#research" data-nav="research">research</a></li>
+        <li><a href="#publications" data-nav="publications">publications</a></li>
+        <li><a href="#cv" data-nav="cv">cv</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+<!-- ============ ABOUT ============ -->
+<section class="page" id="about" aria-labelledby="about-title">
+  <h1 class="title" id="about-title">Avyukth <b>Nilajagi</b></h1>
+  <p class="standfirst">
+    I work on making the training of language models more predictable: which interventions actually
+    prevent a model from internalizing a behavior, and how to tell in advance without paying for a
+    fine-tuning run each time. Undergraduate in computer science and applied mathematics at the
+    University of Pittsburgh; researcher at <a href="https://www.eleuther.ai/">EleutherAI</a>.
+  </p>
+
+  <div class="about-grid">
+    <div>
+      <p>
+        Most of my current work is on <strong>inoculation prompting</strong> — the finding that asking
+        a model to misbehave during fine-tuning makes it misbehave less at test time. It works well,
+        but choosing a good prompt has meant fine-tuning once per candidate. With my cohort at
+        EleutherAI I built a heuristic that reads the answer off base-model log-probabilities instead,
+        so a pool of fifty candidate prompts costs one fine-tune rather than fifty.
+      </p>
+      <p>
+        Before that I spent time on interpretability and model editing: extracting a direction for
+        overthinking in reasoning models and steering along it, and scaling sequential knowledge edits
+        in transformer MLPs. I also still run a computational neuroscience project at CMU on the
+        cortical microcircuit underlying the spectrolaminar pattern of LFP power.
+      </p>
+      <p>
+        The thread through all of it is measurement: taking something people currently judge by
+        intuition or by expensive trial and error, and finding the cheap quantity that predicts it.
+      </p>
+
+      <h2 class="section">News</h2>
+      <table class="news">
+        <tbody>
+          <tr>
+            <td class="when">Jun 2026</td>
+            <td><em>Scalable Search Heuristics for Inoculation Prompting</em> is under submission to the
+                AI4Good workshop at NeurIPS 2026.</td>
+          </tr>
+          <tr>
+            <td class="when">May 2026</td>
+            <td>Started at EleutherAI, leading a four-person SOAR fellowship cohort on inoculation
+                prompt effectiveness. The project received a $6,000 BlueDot rapid grant.</td>
+          </tr>
+          <tr>
+            <td class="when">Nov 2025</td>
+            <td>Our SfN 2025 abstract on spike–field synchronization was selected for both a poster and
+                a nanosymposium talk.</td>
+          </tr>
+          <tr>
+            <td class="when">Jan 2026</td>
+            <td>Joined the Supervised Program for Alignment Research as a research fellow for
+                Spring 2026.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h2 class="section">Selected work</h2>
+      <ul class="bib">
+        <li>
+          <div class="year">2026</div>
+          <div>
+            <h3>Scalable Search Heuristics for Inoculation Prompting</h3>
+            <p class="authors"><b>Avyukth R. Nilajagi</b>, Xinyue Liu, Nikhil Maturi, Bhiman Kumar Baghel</p>
+            <p class="venue">Under submission — AI4Good workshop, NeurIPS 2026</p>
+            <p class="note">
+              Introduces Latent Preference Shift, which predicts how well an inoculation prompt will
+              work from base-model log-probabilities alone, replacing one fine-tuning run per candidate
+              prompt with one forward pass.
+            </p>
+            <div class="btns"><span class="status">Preprint available on request</span></div>
+          </div>
+        </li>
+        <li>
+          <div class="year">2025</div>
+          <div>
+            <h3>Interactions of single-neuron spiking with the spectrolaminar motif of LFP power via
+                spike-field synchronization</h3>
+            <p class="authors">Mendoza-Halliday Lab, Carnegie Mellon University</p>
+            <p class="venue">Society for Neuroscience 2025 — poster and nanosymposium</p>
+            <div class="btns"><a class="btn" href="https://www.abstractsonline.com/pp8/#!/21171/presentation/33637">Abstract</a></div>
+          </div>
+        </li>
+        <li>
+          <div class="year">2025</div>
+          <div>
+            <h3>Understanding and controlling overthinking in reasoning models</h3>
+            <p class="authors"><b>Avyukth R. Nilajagi</b></p>
+            <p class="venue">Mechanistic interpretability mini-project</p>
+            <p class="note">
+              Steering R1-Distill Qwen models along a contrastively extracted overthinking direction
+              improves accuracy on GSM8K-style reasoning tasks.
+            </p>
+            <div class="btns"><a class="btn" href="https://docs.google.com/document/d/1KpR61yLM0HfPd6OJOVFS_H5jatkC5UJWBeh8-FNND5g/edit?usp=sharing">Report</a></div>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <aside class="card">
+      <!-- Swap this monogram for <img src="prof_pic.jpg" alt="Avyukth Nilajagi"> when you have a photo -->
+      <div class="monogram" aria-hidden="true">AN</div>
+      <dl>
+        <dt>Based in</dt>
+        <dd>Pittsburgh, PA</dd>
+        <dt>Email</dt>
+        <dd><a href="mailto:avyukthnilajagi@gmail.com">avyukthnilajagi@gmail.com</a></dd>
+        <dt>Elsewhere</dt>
+        <dd><a href="https://github.com/AvyukthN">github.com/AvyukthN</a></dd>
+        <dd><a href="https://linkedin.com/in/avyukth-nilajagi">linkedin.com/in/avyukth-nilajagi</a></dd>
+      </dl>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ RESEARCH ============ -->
+<section class="page" id="research" aria-labelledby="research-title">
+  <h1 class="title" id="research-title">Research</h1>
+  <p class="standfirst">
+    Alignment and interpretability, with a side of computational neuroscience and genomics.
+  </p>
+
+  <h2 class="section">Alignment</h2>
+
+  <div class="entry">
+    <h3>Cheap heuristics for inoculation prompt search</h3>
+    <p class="meta">EleutherAI SOAR Fellowship &amp; SPAR · <em>2026 – present</em> · with Maxime Riché, Daniel Tan, Victor Gillioz</p>
+    <p>
+      Inoculation prompting suppresses undesired behavioral generalization by requesting the behavior
+      during fine-tuning and dropping the request at inference. The bottleneck is selection: candidates
+      that read almost identically differ enormously in effect, and the only reliable test is a
+      fine-tuning run per candidate.
+    </p>
+    <ul>
+      <li>Built Latent Preference Shift, a log-linear score computed from base-model log-probabilities
+          over a contrastive set, which ranks candidates without per-candidate training.</li>
+      <li>Showed the existing behavioral-elicitation baseline loses all ordering when the base model
+          almost always or almost never exhibits the behavior, and that the latent score stays graded there.</li>
+      <li>Evaluated across reward hacking, sycophancy, and trait-distillation settings; scaled the
+          candidate pool to fifty prompts to check that rank correlation holds.</li>
+      <li>Leading a cohort of four researchers; the project was awarded a $6,000 BlueDot rapid grant.</li>
+    </ul>
+  </div>
+
+  <div class="entry">
+    <h3>Shaping agent self-perception in reinforcement learning</h3>
+    <p class="meta">SPAR Spring 2026 · <em>ongoing</em></p>
+    <p>
+      Exploring how the way an RL agent is described to itself during training affects its intrinsic
+      motivation and the behaviors it generalizes outside the training regime.
+    </p>
+  </div>
+
+  <h2 class="section">Interpretability &amp; model editing</h2>
+
+  <div class="entry">
+    <h3>Understanding and controlling overthinking in reasoning models</h3>
+    <p class="meta">Mini-project · <em>2025</em></p>
+    <p>
+      Extracted a direction in activation space corresponding to overthinking using contrastive sets,
+      then steered R1-Distill Qwen reasoning models along it. Controlling the amount of deliberation
+      improved performance on reasoning benchmarks including GSM8K.
+    </p>
+    <div class="btns"><a class="btn" href="https://docs.google.com/document/d/1KpR61yLM0HfPd6OJOVFS_H5jatkC5UJWBeh8-FNND5g/edit?usp=sharing">Read the report</a></div>
+  </div>
+
+  <div class="entry">
+    <h3>Scaling sequential memory editing in language models</h3>
+    <p class="meta">University of Pittsburgh · <em>2025</em> · with Dr. Xiang Li</p>
+    <p>
+      Treating transformer MLPs as linear associative memories, I recomputed the key projection matrix
+      after each sequential ROME update so that the knowledge representation subspace stays aligned in
+      the causal layers. This keeps factual edits integrated across long sequences of interventions,
+      where ROME and MEMIT otherwise degrade.
+    </p>
+  </div>
+
+  <h2 class="section">Neuroscience &amp; genomics</h2>
+
+  <div class="entry">
+    <h3>Decomposing the canonical cortical microcircuit</h3>
+    <p class="meta">Mendoza-Halliday Lab, CNBC at Carnegie Mellon · <em>2025 – present</em> · with Dr. Diego Mendoza-Halliday</p>
+    <p>
+      Leading a project that breaks the spectrolaminar pattern of LFP power — a motif that recurs across
+      the mammalian cerebral cortex — down to the level of individual neurons, using spike–field
+      synchronization to link single-unit spiking to the laminar power profile.
+    </p>
+    <div class="btns"><a class="btn" href="https://www.abstractsonline.com/pp8/#!/21171/presentation/33637">SfN 2025 abstract</a></div>
+  </div>
+
+  <div class="entry">
+    <h3>Predicting a gene's susceptibility to cancer</h3>
+    <p class="meta">Gao Lab, University of Pennsylvania · <em>2024 – present</em> · with Dr. Ziyue Gao</p>
+    <p>
+      Designed a computational pipeline that scores genes for cancer susceptibility, constructing a
+      phase space of over a million mutation and gene interactions. Wrote custom C/C++ routines to
+      generate synthetic SNP datasets and to process VCF files containing more than 700 million
+      variants, cutting processing time by 60%.
+    </p>
+  </div>
+</section>
+
+<!-- ============ PUBLICATIONS ============ -->
+<section class="page" id="publications" aria-labelledby="pubs-title">
+  <h1 class="title" id="pubs-title">Publications</h1>
+  <p class="standfirst">Papers, abstracts, and write-ups, newest first.</p>
+
+  <ul class="bib">
+    <li>
+      <div class="year">2026</div>
+      <div>
+        <h3>Scalable Search Heuristics for Inoculation Prompting</h3>
+        <p class="authors"><b>Avyukth R. Nilajagi</b>, Xinyue Liu, Nikhil Maturi, Bhiman Kumar Baghel</p>
+        <p class="venue">Under submission — AI4Good workshop, NeurIPS 2026</p>
+        <p class="note">
+          Selecting an effective inoculation prompt normally costs one fine-tuning run per candidate.
+          We introduce Latent Preference Shift, which predicts effectiveness from base-model
+          log-probabilities over a fixed contrastive set, and show it orders candidates more faithfully
+          than the behavioral elicitation rate — especially where elicitation saturates and carries no
+          signal at all.
+        </p>
+        <div class="btns"><span class="status">Preprint available on request</span></div>
+      </div>
+    </li>
+    <li>
+      <div class="year">2025</div>
+      <div>
+        <h3>Interactions of single-neuron spiking with the spectrolaminar motif of LFP power via
+            spike-field synchronization</h3>
+        <p class="authors">Mendoza-Halliday Lab, Carnegie Mellon University</p>
+        <p class="venue">Society for Neuroscience 2025, Chicago — poster and nanosymposium presentation</p>
+        <div class="btns"><a class="btn" href="https://www.abstractsonline.com/pp8/#!/21171/presentation/33637">Abstract</a></div>
+      </div>
+    </li>
+    <li>
+      <div class="year">2025</div>
+      <div>
+        <h3>Understanding and controlling overthinking in reasoning models</h3>
+        <p class="authors"><b>Avyukth R. Nilajagi</b></p>
+        <p class="venue">Mechanistic interpretability mini-project report</p>
+        <div class="btns"><a class="btn" href="https://docs.google.com/document/d/1KpR61yLM0HfPd6OJOVFS_H5jatkC5UJWBeh8-FNND5g/edit?usp=sharing">Report</a></div>
+      </div>
+    </li>
+  </ul>
+</section>
+
+<!-- ============ CV ============ -->
+<section class="page" id="cv" aria-labelledby="cv-title">
+  <h1 class="title" id="cv-title">CV</h1>
+  <p class="standfirst">
+    A short version. Email me for the PDF.
+  </p>
+
+  <h2 class="section">Education</h2>
+  <div class="cv-row">
+    <div class="cv-when">Expected Apr 2027</div>
+    <div>
+      <h3>University of Pittsburgh</h3>
+      <p class="cv-role">BS, Computer Science &amp; Applied Mathematics</p>
+      <ul>
+        <li>Coursework: data structures and algorithms, probability and statistics, discrete mathematics,
+            linear algebra, intermediate programming.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section">Experience</h2>
+
+  <div class="cv-row">
+    <div class="cv-when">May 2026 – present</div>
+    <div>
+      <h3>EleutherAI</h3>
+      <p class="cv-role">Researcher</p>
+      <ul>
+        <li>Leading a cohort of four researchers in the SOAR Fellowship on heuristics for inoculation
+            prompt effectiveness; preparing a NeurIPS 2026 workshop submission.</li>
+        <li>Project awarded a $6,000 BlueDot rapid grant.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cv-row">
+    <div class="cv-when">Jan 2026 – May 2026</div>
+    <div>
+      <h3>Supervised Program for Alignment Research</h3>
+      <p class="cv-role">Research Fellow</p>
+      <ul>
+        <li>Developed a log-linear framework for measuring inoculation prompt effectiveness beyond
+            standard empirical evaluation.</li>
+        <li>Explored methods for shaping agent self-perception and intrinsic motivation in RL setups.</li>
+        <li>Advised by Maxime Riché, Daniel Tan, and Victor Gillioz.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cv-row">
+    <div class="cv-when">Jan 2025 – present</div>
+    <div>
+      <h3>Carnegie Mellon University</h3>
+      <p class="cv-role">Computational Neuroscience Researcher</p>
+      <ul>
+        <li>Leading a project decomposing the canonical cortical microcircuit at the neuron level, as
+            observed in the spectrolaminar pattern of LFP power across the mammalian cortex.</li>
+        <li>Mendoza-Halliday Lab, Center for the Neural Basis of Cognition.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cv-row">
+    <div class="cv-when">Jan 2025 – Aug 2025</div>
+    <div>
+      <h3>University of Pittsburgh</h3>
+      <p class="cv-role">Machine Learning Researcher</p>
+      <ul>
+        <li>Scaled memory editing algorithms (ROME, MEMIT) for large language models.</li>
+        <li>Interpreted transformer MLPs as linear associative memory modules and recomputed the key
+            projection matrix after each sequential ROME update to keep factual edits integrated across
+            interventions.</li>
+        <li>Advised by Dr. Xiang Li.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="cv-row">
+    <div class="cv-when">May 2024 – present</div>
+    <div>
+      <h3>University of Pennsylvania, Gao Lab</h3>
+      <p class="cv-role">Computational Genomics Research Intern</p>
+      <ul>
+        <li>Led development of a pipeline predicting a gene's susceptibility to cancer, building a phase
+            space of over a million mutation and gene interactions.</li>
+        <li>Wrote C/C++ tooling to generate synthetic SNP datasets and process VCF files with over
+            700 million variants and six billion nucleotide datapoints, reducing runtime by 60%.</li>
+        <li>Advised by Dr. Ziyue Gao.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="section">Skills</h2>
+  <div class="skills"><span>Languages</span><span>Python, Java, C/C++, JavaScript, HTML/CSS</span></div>
+  <div class="skills"><span>Tools</span><span>PyTorch, TensorFlow, Flask, React, Next.js</span></div>
+  <div class="skills"><span>Areas</span><span>AI safety, interpretability, machine learning, neural networks, compilers</span></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <ul class="social">
+      <li><a href="mailto:avyukthnilajagi@gmail.com" title="Email" aria-label="Email">
+        <svg viewBox="0 0 24 24"><path d="M2 5.5A1.5 1.5 0 0 1 3.5 4h17A1.5 1.5 0 0 1 22 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-17A1.5 1.5 0 0 1 2 18.5v-13Zm2.2.5 7.8 5.9L19.8 6H4.2ZM4 8.1v9.9h16V8.1l-8 6-8-6Z"/></svg>
+      </a></li>
+      <li><a href="https://github.com/AvyukthN" title="GitHub" aria-label="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.55v-1.94c-3.2.7-3.88-1.54-3.88-1.54-.53-1.34-1.29-1.7-1.29-1.7-1.05-.72.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.04 1.78 2.73 1.27 3.4.97.1-.76.4-1.27.73-1.56-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.1-.12-.29-.52-1.46.11-3.05 0 0 .96-.3 3.15 1.18a10.9 10.9 0 0 1 5.74 0c2.18-1.48 3.14-1.18 3.14-1.18.63 1.59.23 2.76.12 3.05.74.81 1.18 1.84 1.18 3.1 0 4.43-2.69 5.4-5.25 5.69.41.36.78 1.06.78 2.14v3.17c0 .3.2.66.8.55A11.5 11.5 0 0 0 23.5 12A11.5 11.5 0 0 0 12 .5Z"/></svg>
+      </a></li>
+      <li><a href="https://linkedin.com/in/avyukth-nilajagi" title="LinkedIn" aria-label="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5ZM2.4 9.5h5.16V21H2.4V9.5Zm7.7 0h4.95v1.57h.07c.69-1.2 2.37-1.96 3.9-1.96 4.17 0 4.94 2.5 4.94 5.75V21h-5.16v-5.36c0-1.28-.02-2.93-1.83-2.93-1.83 0-2.11 1.4-2.11 2.84V21H10.1V9.5Z"/></svg>
+      </a></li>
+    </ul>
+    <div>© 2026 Avyukth Nilajagi. Built with the al-folio layout.</div>
+  </div>
+</footer>
+
+<script>
+  var pages = ['about','research','publications','cv'];
+  function show(id){
+    if(pages.indexOf(id) === -1){ id = 'about'; }
+    pages.forEach(function(p){
+      var el = document.getElementById(p);
+      el.classList.toggle('is-active', p === id);
+    });
+    document.querySelectorAll('[data-nav]').forEach(function(a){
+      if(a.getAttribute('data-nav') === id){ a.setAttribute('aria-current','page'); }
+      else { a.removeAttribute('aria-current'); }
+    });
+    var title = id === 'about' ? 'Avyukth Nilajagi'
+              : id.charAt(0).toUpperCase() + id.slice(1) + ' · Avyukth Nilajagi';
+    document.title = title;
+  }
+  function fromHash(){ show((location.hash || '#about').slice(1)); }
+  window.addEventListener('hashchange', function(){ fromHash(); window.scrollTo(0,0); });
+  fromHash();
+</script>
+</body>
+</html>
